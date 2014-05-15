@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+  
+	<plugin-info>
+	  <description>${project.description}</description>
+	  <version>${project.version}</version>
+	  <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+	  <param name="plugin-icon">images/pluginIcon.png</param>
+	  <param name="plugin-logo">images/pluginLogo.png</param>
+	</plugin-info>
+	
+	<!-- add our i18n resource -->
+	<resource type="i18n" name="i18n" location="bamboo-dynatrace-plugin"/>
+	
+	<!-- add our web resources -->
+	<web-resource key="bamboo-dynatrace-plugin-resources" name="bamboo-dynatrace-plugin Web Resources">
+	  <dependency>com.atlassian.auiplugin:ajs</dependency>
+	  <resource type="download" name="bamboo-dynatrace-plugin.css" location="/css/bamboo-dynatrace-plugin.css"/>
+	  <resource type="download" name="bamboo-dynatrace-plugin.js" location="/js/bamboo-dynatrace-plugin.js"/>
+	  <resource type="download" name="images/" location="/images"/>
+	  <resource type="download" name="d3.v3.js" location="/js/d3.v3.js" />
+	  <context>bamboo-dynatrace-plugin</context>
+	</web-resource>
+	
+	<!-- publish our component -->
+	<component key="myPluginComponent" class="be.sofico.bamboo.plugins.MyPluginComponentImpl" public="true">
+	  <interface>be.sofico.bamboo.plugins.MyPluginComponent</interface>
+	</component>
+	
+	<!-- import from the product container -->
+	<component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
+
+	<!-- Define actions invoked by web item entries -->
+	<xwork key="viewTestAutomation" name="View Test Automation Summary">
+		<package name="View" extends="default">
+			<action name="viewTestAutomation" class="be.sofico.bamboo.plugins.dynatrace.ViewTestAutomation">
+				<result name="success" type="freemarker">/templates/viewTestAutomation.ftl</result>
+			</action>
+<!-- 			<action name="getTimesDataJson"
+				class="com.atlassian.bamboo.plugin.buildtimes.ViewBuildTimes"
+				method="JSON">
+				<result name="success" type="json"></result>
+			</action> -->
+		</package>
+	</xwork>
+  
+	<!-- Adds the Dynatrace Tab to the general Plan Summary -->
+	<web-item name="DTTestAutomationOverview" i18n-name-key="dt-test-automation-overview.name" key="dt-test-automation-overview" section="chain.subMenu/chain" weight="1000">
+	  <description key="dt-test-automation-overview.description">Provides the dynaTrace Test Automation View on the Plan level</description>
+	  <label key="dt-test-automation-overview.label"></label>
+	  <link linkId="dt-test-automation-overview-link">/dynatrace/viewTestAutomation.action?buildKey=${planKey}</link>
+	</web-item>
+  
+</atlassian-plugin>

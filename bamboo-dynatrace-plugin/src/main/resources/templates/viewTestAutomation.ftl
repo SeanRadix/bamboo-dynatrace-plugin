@@ -16,14 +16,24 @@ var data = [{build:"43", Degrading:"5", Volatile:"25", Improved:"10", Passing:"5
             {build:"45", Degrading:"15", Volatile:"15", Improved:"20", Passing:"50", Invalidated:"0"},
             {build:"46", Degrading:"15", Volatile:"15", Improved:"20", Passing:"50", Invalidated:"0"},
             {build:"47", Degrading:"5", Volatile:"25", Improved:"10", Passing:"59", Invalidated:"1"},
-            {build:"48", Degrading:"10", Volatile:"30", Improved:"0", Passing:"60", Invalidated:"0"}
+            {build:"48", Degrading:"10", Volatile:"30", Improved:"0", Passing:"60", Invalidated:"0"},
+            {build:"49", Degrading:"50", Volatile:"10", Improved:"0", Passing:"40", Invalidated:"0"},
+            {build:"50", Degrading:"80", Volatile:"10", Improved:"0", Passing:"10", Invalidated:"0"},
+            {build:"51", Degrading:"70", Volatile:"0", Improved:"20", Passing:"10", Invalidated:"0"},
+            {build:"52", Degrading:"50", Volatile:"0", Improved:"20", Passing:"30", Invalidated:"0"},
+            {build:"53", Degrading:"20", Volatile:"0", Improved:"30", Passing:"50", Invalidated:"0"},
+            {build:"54", Degrading:"10", Volatile:"10", Improved:"0", Passing:"80", Invalidated:"0"},
+            {build:"55", Degrading:"0", Volatile:"20", Improved:"0", Passing:"80", Invalidated:"0"},
+            {build:"56", Degrading:"0", Volatile:"10", Improved:"0", Passing:"90", Invalidated:"0"},
+            {build:"57", Degrading:"10", Volatile:"0", Improved:"0", Passing:"90", Invalidated:"0"},
+            {build:"58", Degrading:"20", Volatile:"10", Improved:"0", Passing:"70", Invalidated:"0"},
             ];
             
 // Width of the svg canvas
 var canvasWidth = AJS.$("#chartContainer").width();
 
 var margin = {top: 20, right: 20, bottom: 30, left: 50};
-var width = canvasWidth*0.8;
+var width = canvasWidth*0.6;
 var height = 400 - margin.top - margin.bottom;
 
 var formatPercent = d3.format(".0%");
@@ -62,17 +72,8 @@ var svg = d3.select("#chartContainer").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-	
-
-/* d3.tsv("data.csv", function(error, data) {
-  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
-
-  data.forEach(function(d) {
-    d.date = parseDate(d.date);
-  }); */
   
-  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "build"; })).range(["orange","yellow","lightgreen", "green", "gainsboro"]);
+  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "build"; })).range(["orangered","yellow","lime", "green", "gainsboro"]);
 
   var browsers = stack(color.domain().map(function(name) {
     return {
@@ -114,7 +115,7 @@ var svg = d3.select("#chartContainer").append("svg")
         
   function drawLegend() {
   
-  	var margin = {top: 20, right: 20, bottom: 30, left: 50};
+  	var margin = {top: 20, right: 20, bottom: 30, left: 20};
   	var height = 500 - margin.top - margin.bottom;
   	var legendHeight = 50;
 	var legendWidth = 200;
@@ -127,14 +128,14 @@ var svg = d3.select("#chartContainer").append("svg")
                 .attr("height", legendHeight)
                 .attr("style", "padding-top: 35px; padding-left: 35px; padding-bottom: 15px");
 
-        var styles = ["orange", "yellow", "lightgreen", "green", "gainsboro"]
-        var labels = {"orange":"Degrading", "yellow":"Volatile", "lightgreen": "Improved", "green":"Passing", "gainsboro":"Invalidated"};
+		var styles = ["limegreen", "green", "yellow", "orangered", "gainsboro"]
+		var labels = {"limegreen":"Passing", "green": "Improved", "orangered":"Degrading", "yellow":"Volatile", "gainsboro":"Invalidated"};
 
         //Draw Legend
         legend.append("rect")
                 .attr("y", 0)
                 .attr("x", 0)
-                .attr("width", 1310)
+                .attr("width", 1200)
                 .attr("height", legendHeight)
                 .attr("style", "fill:#fff; stroke:#000");
 
@@ -154,10 +155,6 @@ var svg = d3.select("#chartContainer").append("svg")
                 .attr("x", function(d,i) {return 75 + 260*i})
                 .attr("text-anchor", "start")
                 .text(function(d,i) {return labels[d];});
-
-
-
-
     }
 
     </script>

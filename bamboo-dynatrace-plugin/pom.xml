@@ -13,9 +13,9 @@
     <description>This is the be.sofico.bamboo.plugins:bamboo-dynatrace-plugin plugin for Atlassian Bamboo.</description>
     <packaging>atlassian-plugin</packaging>
     <properties>
-        <bamboo.version>5.5.0</bamboo.version>
+        <bamboo.version>5.6.0</bamboo.version>
         <bamboo.data.version>3.2.2</bamboo.data.version>
-        <amps.version>4.2.20</amps.version>
+        <amps.version>5.0.4</amps.version>
         <plugin.testrunner.version>1.1.4</plugin.testrunner.version>
     </properties>
     <dependencies>
